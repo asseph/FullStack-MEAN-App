@@ -1,0 +1,60 @@
+<h2>{{lawn.title}} Lawn Applications <button class="btn btn-success" data-toggle="modal" data-target="#addLawnApplicationModal">Add Application</button></h2>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead class="thead-light">
+      <th scope="col">Date</th>
+      <th scope="col">Name</th>
+      <th scope="col">Amount (in lbs)</th>
+      <th scope="col"> Actions </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let application of lawn.applications">
+        <td>{{application.date | date:'shortDate'}}</td>
+        <td>{{application.name}}</td>
+        <td>{{application.amount}}</td>
+        <td>
+            <div class="btn-toolbar" role="toolbar" aria-label="Lawn Actions" style="justify-content: center">
+              <div class="btn-group mr-2">
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#editLawnApplicationModal" (click)="selectApplication(application)">Edit</button>
+              </div>
+              <div class="btn-group mr-2">
+                  <button type="button" class="btn btn-danger" (click)="deleteApplication(application); $event.stopPropagation();">Delete</button>
+              </div>
+            </div>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="addLawnApplicationModal" tabindex="-1" role="dialog" aria-labelledby="addLawnApplicationModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addLawnApplicationModalTitle">Add Application</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <app-add-application [lawn]="lawn"></app-add-application>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editLawnApplicationModal" tabindex="-1" role="dialog" aria-labelledby="editLawnApplicationModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editLawnApplicationModalTitle">Edit Lawn Application</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <app-edit-application *ngIf="selectedApplication" [application]="selectedApplication" [lawn]="lawn" (updateLawn)="onUpdateLawn($event)"></app-edit-application>
+            </div>
+          </div>
+        </div>
+      </div>
+    
